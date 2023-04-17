@@ -25,7 +25,7 @@ public class Criancas extends JFrame{
     private JPanel panel;
 
     public Criancas(){
-        setTitle("Crianças com e sem bola");
+        setTitle("Criação de crianças");
         setSize(400,200);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLayout(new GridLayout(2,2));
