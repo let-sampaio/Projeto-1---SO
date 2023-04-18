@@ -17,30 +17,52 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
+import javax.swing.JComboBox;
+import java.awt.Dimension;
 
 public class Criancas extends JFrame{
-    private JTextField tfBolas, tfSemBolas;
-    private JLabel lblBola, lblSemBolas;
+    private JTextField tfIdentificador, tfTempoBrincadeira, tfTempoQuieta;
+    private JLabel lblIdentificador, lblTempoBrincadeira, lblTempoQuieta;
     private JButton btnCriar;
     private JPanel panel;
 
     public Criancas(){
-        setTitle("Criação de crianças");
+        setTitle("Criação de criança");
         setSize(400,200);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setLayout(new GridLayout(2,2));
+        setLayout(new GridLayout(1,1));
 
-        tfBolas = new JTextField(10);
-        tfSemBolas = new JTextField(10);
-        lblBola = new JLabel("Quantidade de crianças com bola:");
-        lblSemBolas = new JLabel("Quantidade de crianças sem bola:");
+        // tfBolas = new JTextField(10);
+        // tfSemBolas = new JTextField(10);
+        // lblBola = new JLabel("Quantidade de crianças com bola:");
+        // lblSemBolas = new JLabel("Quantidade de crianças sem bola:");
+
+
+        tfIdentificador = new JTextField(20);
+        lblIdentificador = new JLabel("Nome da criança:");
+        tfTempoBrincadeira = new JTextField(20);
+        lblTempoBrincadeira = new JLabel("Tempo de brincadeira (s):");
+        lblTempoQuieta = new JLabel("Tempo quieta (s):");
+        tfTempoQuieta = new JTextField(20);
+        String[] opcoes = {"Com bola", "Sem bola"};
+        JComboBox comboBoxBolas = new JComboBox(opcoes);
+
+
         btnCriar = new JButton("Criar");
+        btnCriar.setPreferredSize(new Dimension(400, 40));
         panel = new JPanel();
 
-        panel.add(lblBola);
-        panel.add(tfBolas);
-        panel.add(lblSemBolas);
-        panel.add(tfSemBolas);
+        // panel.add(lblBola);
+        // panel.add(tfBolas);
+        // panel.add(lblSemBolas);
+        // panel.add(tfSemBolas);
+        panel.add(lblIdentificador);
+        panel.add(tfIdentificador);
+        panel.add(lblTempoBrincadeira);
+        panel.add(tfTempoBrincadeira);
+        panel.add(lblTempoQuieta);
+        panel.add(tfTempoQuieta);
+        panel.add(comboBoxBolas);
         panel.add(btnCriar);
 
         add(panel);
@@ -49,14 +71,16 @@ public class Criancas extends JFrame{
         btnCriar.addActionListener(new ActionListener(){
             @Override
             public void actionPerformed(ActionEvent e){
-                int numBolas = Integer.parseInt(tfBolas.getText());
-                int numSemBolas = Integer.parseInt(tfSemBolas.getText());
+                String identificador = tfIdentificador.getText();
+                float tempoBrincadeira = Float.parseFloat(tfTempoBrincadeira.getText());
+                float tempoQuieta = Float.parseFloat(tfTempoQuieta.getText());
 
-                if(numBolas > 0 && numSemBolas > 0){
-                    Thread bolasThread = new BolasThread(numBolas);
-                    Thread semBolasThread = new SemBolasThread(numSemBolas);
+                if(comboBoxBolas.getSelectedItem() == "Com bola"){
+                    System.out.printf("Identificador: %s\n", identificador);
+                    System.out.printf("Tempo de brincadeira: %f\n", tempoBrincadeira);
+                    System.out.printf("Tempo quieta: %f\n", tempoQuieta);
+                    Thread bolasThread = new BolasThread();
                     bolasThread.start();
-                    semBolasThread.start();
                     JFrame novaJanela = new JFrame();
                     novaJanela.setSize(600,300);
                     novaJanela.setTitle("Brincadeira");
@@ -79,8 +103,13 @@ public class Criancas extends JFrame{
                 }catch(MalformedURLException ex){
                     ex.printStackTrace();
                 }
-            }else{
-                System.out.println("Quantidade inválida!");
+            } else if(comboBoxBolas.getSelectedItem() == "Sem bola"){
+                System.out.printf("Identificador: %s\n", identificador);
+                System.out.printf("Tempo de brincadeira: %f\n", tempoBrincadeira);
+                System.out.printf("Tempo quieta: %f\n", tempoQuieta);
+                
+                Thread semBolasThread = new SemBolasThread();
+                semBolasThread.start();
             }}
         });
     }
@@ -90,33 +119,23 @@ public class Criancas extends JFrame{
     }
 }
 class BolasThread extends Thread{
-    private int numBolas;
     
 
-    public BolasThread(int numBolas){
-        this.numBolas = numBolas;
+    public BolasThread(){
 
     }
     @Override
     public void run(){
-        for (int i=0; i<numBolas;i++){
-            System.out.println("Criança com bola criada!");
-        }   
+        System.out.println("Criança com bola criada!");
 }
 }
 class SemBolasThread extends Thread{
-    private int numSemBolas;
     
-    public SemBolasThread(int numSemBolas){
-        this.numSemBolas = numSemBolas;
+    public SemBolasThread(){
     }
     @Override 
     public void run(){
-        for(int i =0;i<numSemBolas;i++){
-            System.out.println("Crianças sem bola criada!");
-        }
-     
-        
+        System.out.println("Criança sem bola criada!");
     }
 }
 
