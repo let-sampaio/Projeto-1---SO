@@ -90,13 +90,13 @@ public class Criancas extends JFrame{
                         ex.printStackTrace();
                     }
 
-                    String identificador = tfIdentificador.getText();
-                    float tempoBrincadeira = Float.parseFloat(tfTempoBrincadeira.getText());
-                    float tempoQuieta = Float.parseFloat(tfTempoQuieta.getText());
-
                     btnCriar.addActionListener(new ActionListener(){
                         @Override
                         public void actionPerformed(ActionEvent e){
+                            String identificador = tfIdentificador.getText();
+                            float tempoBrincadeira = Float.parseFloat(tfTempoBrincadeira.getText());
+                            float tempoQuieta = Float.parseFloat(tfTempoQuieta.getText());
+                            
                             if(comboBoxBolas.getSelectedItem() == "Com bola"){
                                 System.out.printf("Identificador: %s\n", identificador);
                                 System.out.printf("Tempo de brincadeira: %f\n", tempoBrincadeira);
