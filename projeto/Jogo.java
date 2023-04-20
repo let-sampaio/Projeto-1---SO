@@ -13,6 +13,7 @@ public class Jogo extends JFrame {
         setSize(300,150);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLayout(new GridLayout(1,1));
+        setLocationRelativeTo(null);
 
         tfCapacidadeCesto = new JTextField(15);
         lbCapacidadeCesto = new JLabel("Capacidade do cesto:");
