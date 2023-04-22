@@ -32,45 +32,46 @@ public class Jogo extends JFrame {
         btnIniciar.addActionListener(new ActionListener(){
             @Override
             public void actionPerformed(ActionEvent e){
-
-                    JFrame novaJanela = new JFrame();
-                    novaJanela.setLayout(new BorderLayout());
-                    panel = new JPanel();
-                    btnCriar = new JButton("Criar");
-                    novaJanela.setSize(600,600);
-                    novaJanela.setTitle("Brincadeira");
-                    novaJanela.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-                    novaJanela.setExtendedState(JFrame.MAXIMIZED_BOTH);
-                    novaJanela.setVisible(true);
-
-                    tfIdentificador = new JTextField(20);
-                    lblIdentificador = new JLabel("Nome da criança:");
-                    tfTempoBrincadeira = new JTextField(20);
-                    lblTempoBrincadeira = new JLabel("Tempo de brincadeira (s):");
-                    lblTempoQuieta = new JLabel("Tempo quieta (s):");
-                    tfTempoQuieta = new JTextField(20);
-                    String[] opcoes = {"Com bola", "Sem bola"};
-                    JComboBox<String> comboBoxBolas = new JComboBox<>(opcoes);
-
-                    panel.add(lblIdentificador);
-                    panel.add(tfIdentificador);
-                    panel.add(lblTempoBrincadeira);
-                    panel.add(tfTempoBrincadeira);
-                    panel.add(lblTempoQuieta);
-                    panel.add(tfTempoQuieta);
-                    panel.add(comboBoxBolas);
-                    panel.add(btnCriar);
-                    add(panel);
-                    
-                    novaJanela.add(panel, BorderLayout.NORTH);
-
-                    try {
-                        ImageIcon icon = new ImageIcon("projeto/src/estadio.jpg");
-                        JLabel campoLabel = new JLabel(icon);
-                        novaJanela.add(campoLabel, BorderLayout.SOUTH);
-                    } catch (Exception ex) {
-                        ex.printStackTrace();
-                    }
+                JFrame novaJanela = new JFrame();
+                novaJanela.setLayout(new BorderLayout());
+                novaJanela.setSize(600,600);
+                novaJanela.setTitle("Brincadeira");
+                novaJanela.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+                novaJanela.setExtendedState(JFrame.MAXIMIZED_BOTH);
+                novaJanela.setVisible(true);
+        
+                // Cria o painel com os text fields e o botão
+                panel = new JPanel();
+                tfIdentificador = new JTextField(20);
+                lblIdentificador = new JLabel("Nome da criança:");
+                tfTempoBrincadeira = new JTextField(20);
+                lblTempoBrincadeira = new JLabel("Tempo de brincadeira (s):");
+                lblTempoQuieta = new JLabel("Tempo quieta (s):");
+                tfTempoQuieta = new JTextField(20);
+                String[] opcoes = {"Com bola", "Sem bola"};
+                JComboBox<String> comboBoxBolas = new JComboBox<>(opcoes);
+                btnCriar = new JButton("Criar");
+        
+                panel.add(lblIdentificador);
+                panel.add(tfIdentificador);
+                panel.add(lblTempoBrincadeira);
+                panel.add(tfTempoBrincadeira);
+                panel.add(lblTempoQuieta);
+                panel.add(tfTempoQuieta);
+                panel.add(comboBoxBolas);
+                panel.add(btnCriar);
+                novaJanela.add(panel, BorderLayout.NORTH);
+        
+                // Adiciona a imagem do campo no centro do painel
+                try {
+                    ImageIcon icon = new ImageIcon("projeto/src/cesto.png");
+                    JLabel campoLabel = new JLabel(icon);
+                    panel = new JPanel(new BorderLayout());
+                    panel.add(campoLabel, BorderLayout.CENTER);
+                    novaJanela.add(panel, BorderLayout.CENTER);
+                } catch (Exception ex) {
+                    ex.printStackTrace();
+                }
 
                     btnCriar.addActionListener(new ActionListener(){
                         @Override
