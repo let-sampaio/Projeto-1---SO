@@ -1,9 +1,15 @@
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
-// import java.util.concurrent.Semaphore;
+import java.util.concurrent.Semaphore;
 
 public class Jogo extends JFrame {
+
+    public static Semaphore cestoCheio = new Semaphore(0);
+    public static Semaphore cestoVazio = new Semaphore(0); // criança iniciada com bola? up
+    public static Semaphore mutex = new Semaphore(1);
+
+
     private JTextField tfCapacidadeCesto, tfIdentificador, tfTempoBrincadeira, tfTempoQuieta;
     private JLabel lbCapacidadeCesto, lblIdentificador, lblTempoBrincadeira, lblTempoQuieta, lblCestoAtual;
     private JButton btnIniciar, btnCriar;
@@ -75,7 +81,7 @@ public class Jogo extends JFrame {
                     cestoLabel.setLayout(new BorderLayout());
                     cestoLabel.add(lblCestoAtual, BorderLayout.NORTH);
                     lblCestoAtual.setFont(new Font("Arial", Font.BOLD, 80));
-                    lblCestoAtual.setBorder(BorderFactory.createEmptyBorder(320, 720, 10, 10));
+                    lblCestoAtual.setBorder(BorderFactory.createEmptyBorder(320, 720, 10, 10)); //temporário: alterar modo de centralização
                 
                     cestoPanel.add(cestoLabel, BorderLayout.CENTER);
                     novaJanela.add(cestoPanel, BorderLayout.CENTER);
@@ -121,6 +127,14 @@ public class Jogo extends JFrame {
             this.tempoBrincadeira = tempoBrincadeira;
             this.tempoQuieta = tempoQuieta;
             this.bola = bola;
+        }
+
+        public void brincar(){
+             //a ser implementado
+             //método chamado se a criança possui bola (fazer verificação)
+             //método também chamado após a criança correr para o cesto e constatar
+             //que tem bola disponível (fazer verificação)
+             //ao final da brincadeira, devolver a bola para o cesto (se tiver espaço)
         }
 
         public void run(){
