@@ -76,12 +76,12 @@ public class Jogo extends JFrame {
                     lblCestoAtual = new JLabel(String.valueOf(cestoAtual));
                     lblCestoAtual.setForeground(Color.WHITE);
                 
-                    ImageIcon cestoIcon = new ImageIcon("projeto/src/cesto.png");
+                    ImageIcon cestoIcon = new ImageIcon("projeto/src/background.png");
                     JLabel cestoLabel = new JLabel(cestoIcon);
                     cestoLabel.setLayout(new BorderLayout());
                     cestoLabel.add(lblCestoAtual, BorderLayout.NORTH);
                     lblCestoAtual.setFont(new Font("Arial", Font.BOLD, 80));
-                    lblCestoAtual.setBorder(BorderFactory.createEmptyBorder(320, 720, 10, 10)); //temporário: alterar modo de centralização
+                    lblCestoAtual.setBorder(BorderFactory.createEmptyBorder(80, 680, 10, 10)); //temporário: alterar modo de centralização
                 
                     cestoPanel.add(cestoLabel, BorderLayout.CENTER);
                     novaJanela.add(cestoPanel, BorderLayout.CENTER);
