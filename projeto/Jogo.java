@@ -1,6 +1,7 @@
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
+// import java.util.concurrent.Semaphore;
 
 public class Jogo extends JFrame {
     private JTextField tfCapacidadeCesto, tfIdentificador, tfTempoBrincadeira, tfTempoQuieta;
@@ -62,7 +63,6 @@ public class Jogo extends JFrame {
                 panel.add(btnCriar);
                 novaJanela.add(panel, BorderLayout.NORTH);
         
-                // Adiciona a imagem do campo no centro do painel
                 try {
                     ImageIcon icon = new ImageIcon("projeto/src/cesto.png");
                     JLabel campoLabel = new JLabel(icon);
@@ -114,7 +114,7 @@ public class Jogo extends JFrame {
         }
 
         public void run(){
-            if(bola == true){
+            if(bola){
                 System.out.println("criança com bola rodando");
             }else{
                 System.out.println("criança sem bola rodando");
