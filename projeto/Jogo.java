@@ -5,7 +5,7 @@ import java.awt.event.*;
 
 public class Jogo extends JFrame {
     private JTextField tfCapacidadeCesto, tfIdentificador, tfTempoBrincadeira, tfTempoQuieta;
-    private JLabel lbCapacidadeCesto, lblIdentificador, lblTempoBrincadeira, lblTempoQuieta;
+    private JLabel lbCapacidadeCesto, lblIdentificador, lblTempoBrincadeira, lblTempoQuieta, lblCestoAtual;
     private JButton btnIniciar, btnCriar;
     private JPanel panel;
 
@@ -41,7 +41,6 @@ public class Jogo extends JFrame {
                 novaJanela.setExtendedState(JFrame.MAXIMIZED_BOTH);
                 novaJanela.setVisible(true);
         
-                // Cria o painel com os text fields e o botão
                 panel = new JPanel();
                 tfIdentificador = new JTextField(20);
                 lblIdentificador = new JLabel("Nome da criança:");
@@ -52,6 +51,7 @@ public class Jogo extends JFrame {
                 String[] opcoes = {"Com bola", "Sem bola"};
                 JComboBox<String> comboBoxBolas = new JComboBox<>(opcoes);
                 btnCriar = new JButton("Criar");
+
         
                 panel.add(lblIdentificador);
                 panel.add(tfIdentificador);
@@ -64,11 +64,21 @@ public class Jogo extends JFrame {
                 novaJanela.add(panel, BorderLayout.NORTH);
         
                 try {
-                    ImageIcon icon = new ImageIcon("projeto/src/cesto.png");
-                    JLabel campoLabel = new JLabel(icon);
-                    panel = new JPanel(new BorderLayout());
-                    panel.add(campoLabel, BorderLayout.CENTER);
-                    novaJanela.add(panel, BorderLayout.CENTER);
+                    JPanel cestoPanel = new JPanel(new BorderLayout());
+                
+                    int cestoAtual = Integer.parseInt(tfCapacidadeCesto.getText());
+                    lblCestoAtual = new JLabel(String.valueOf(cestoAtual));
+                    lblCestoAtual.setForeground(Color.WHITE);
+                
+                    ImageIcon cestoIcon = new ImageIcon("projeto/src/cesto.png");
+                    JLabel cestoLabel = new JLabel(cestoIcon);
+                    cestoLabel.setLayout(new BorderLayout());
+                    cestoLabel.add(lblCestoAtual, BorderLayout.NORTH);
+                    lblCestoAtual.setFont(new Font("Arial", Font.BOLD, 80));
+                    lblCestoAtual.setBorder(BorderFactory.createEmptyBorder(320, 720, 10, 10));
+                
+                    cestoPanel.add(cestoLabel, BorderLayout.CENTER);
+                    novaJanela.add(cestoPanel, BorderLayout.CENTER);
                 } catch (Exception ex) {
                     ex.printStackTrace();
                 }
