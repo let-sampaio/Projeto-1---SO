@@ -5,8 +5,8 @@ import java.util.concurrent.Semaphore;
 
 public class Jogo extends JFrame {
 
-    public static Semaphore cestoCheio = new Semaphore(0);
-    public static Semaphore cestoVazio = new Semaphore(0); // criança iniciada com bola? up
+    public static Semaphore cestoVazio = new Semaphore(0); // capacidade máxima do cesto (K)
+    public static Semaphore cestoCheio = new Semaphore(0); // quantidade de bolas no cesto
     public static Semaphore mutex = new Semaphore(1);
 
 
@@ -73,6 +73,8 @@ public class Jogo extends JFrame {
                     JPanel cestoPanel = new JPanel(new BorderLayout());
                 
                     int cestoAtual = Integer.parseInt(tfCapacidadeCesto.getText());
+                    cestoVazio.release(cestoAtual); //atribui a capacidade do cesto ao semáforo
+
                     lblCestoAtual = new JLabel(String.valueOf(cestoAtual));
                     lblCestoAtual.setForeground(Color.WHITE);
                 
@@ -113,6 +115,7 @@ public class Jogo extends JFrame {
                     });
             }
         });
+
     }
 
     class Crianca extends Thread {
@@ -130,18 +133,50 @@ public class Jogo extends JFrame {
         }
 
         public void brincar(){
-             //a ser implementado
-             //método chamado se a criança possui bola (fazer verificação)
-             //método também chamado após a criança correr para o cesto e constatar
-             //que tem bola disponível (fazer verificação)
-             //ao final da brincadeira, devolver a bola para o cesto (se tiver espaço)
+            System.out.println("Criança " + identificador + "está brincando com a bola");
+            status = "Brincando com a bola";
         }
 
+        public void esperar_bola(){
+            System.out.println("Criança " + identificador + "está esperando uma bola no cesto");
+            status = "Esperando bola no cesto";
+        }
+
+        public void pegar_bola(){
+            System.out.println("Criança " + identificador + " pegou uma bola.");
+            bola = true;
+        }
+
+        public void esperar_espaco(){
+            System.out.println("Criança " + identificador + "está esperando espaço no cesto");
+            status = "Esperando espaço no cesto";
+        }
+
+        public void ficar_quieta(){
+            System.out.println("Criança " + identificador + "está quieta");
+            status = "Quieta";
+        }
+
+
+
         public void run(){
-            if(bola){
-                System.out.println("criança com bola rodando");
-            }else{
-                System.out.println("criança sem bola rodando");
+            try{
+                while(true){
+                    if(bola){
+                        mutex.acquire(); // down no mutex
+                        cestoVazio.acquire(); // down na quantidade de bolas do cesto
+                        brincar();
+                        mutex.release(); // up no mutex
+                        cestoCheio.release();
+                        ficar_quieta();
+                    }
+                    else {
+                        esperar_bola();
+                        
+                    }
+                }
+            } catch(InterruptedException e) {
+                e.printStackTrace();
             }
         }
 
