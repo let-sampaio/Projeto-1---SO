@@ -13,6 +13,9 @@ public class Jogo extends JFrame {
     public ImageIcon brincando = new ImageIcon("projeto/src/brincando.png");
     public ImageIcon quieta = new ImageIcon("projeto/src/quieta.png");
 
+    public static JTextArea AreaLog = new JTextArea(10, 40);
+    public static JScrollPane Log = new JScrollPane(AreaLog);
+    
 
     private JTextField tfCapacidadeCesto, tfIdentificador, tfTempoBrincadeira, tfTempoQuieta;
     private JLabel lbCapacidadeCesto, lblIdentificador, lblTempoBrincadeira, lblTempoQuieta, lblCestoAtual;
@@ -82,15 +85,20 @@ public class Jogo extends JFrame {
                     lblCestoAtual = new JLabel(String.valueOf(cestoAtual));
                     lblCestoAtual.setForeground(Color.WHITE);
                 
-                    ImageIcon cestoIcon = new ImageIcon("projeto/src/background.png");
+                    ImageIcon cestoIcon = new ImageIcon("projeto/src/cesto2.png");
                     JLabel cestoLabel = new JLabel(cestoIcon);
                     cestoLabel.setLayout(new BorderLayout());
                     cestoLabel.add(lblCestoAtual, BorderLayout.NORTH);
                     lblCestoAtual.setFont(new Font("Arial", Font.BOLD, 80));
-                    lblCestoAtual.setBorder(BorderFactory.createEmptyBorder(80, 680, 10, 10)); //temporário: alterar modo de centralização
+                    lblCestoAtual.setBorder(BorderFactory.createEmptyBorder(100, 680, 10, 10)); //temporário: alterar modo de centralização
                     
                     cestoPanel.add(cestoLabel, BorderLayout.CENTER);
                     novaJanela.add(cestoPanel, BorderLayout.CENTER);
+                    cestoPanel.add(Log, BorderLayout.SOUTH); //adiciona a instância existente de JScrollPane ao painel
+                    Log.setPreferredSize(new Dimension(200, 100));
+                    Log.setHorizontalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS); //altera a política da barra de rolagem
+
+
                 } catch (Exception ex) {
                     ex.printStackTrace();
                 }
@@ -177,17 +185,22 @@ public class Jogo extends JFrame {
                 while(true){
                     if(bola){
                         System.out.println("Criança " + identificador + " está brincando com a bola");
+                        AreaLog.append("Criança " + identificador + " está brincando com a bola\n");
                         brincar();
                     }
                     else {
-                        System.out.println("Criança " + identificador + "está aguardando que outra criança coloque uma bola no cesto");
+                        System.out.println("Criança " + identificador + " está aguardando uma bola no cesto");
+                        AreaLog.append("Criança " + identificador + " está aguardando uma bola no cesto\n");
                         pegar_uma_bola();
-                        System.out.println("Criança " + identificador + " pegou uma bola");
+                        System.out.println("Criança " + identificador + " está brincando com a bola que pegou");
+                        AreaLog.append("Criança " + identificador + " está brincando com a bola que pegou\n");
                         brincar();
                     }
                     System.out.println("Criança " + identificador + " devolveu a bola para o cesto.");
+                    AreaLog.append("Criança " + identificador + " devolveu a bola para o cesto.\n");
                     inserir_uma_bola();
                     System.out.println("Criança " + identificador + " está quieta.");
+                    AreaLog.append("Criança " + identificador + " está quieta.\n");
                     ficar_quieta();
                 }
             } catch(InterruptedException e) {
