@@ -90,7 +90,7 @@ public class Jogo extends JFrame {
                     cestoLabel.setLayout(new BorderLayout());
                     cestoLabel.add(lblCestoAtual, BorderLayout.NORTH);
                     lblCestoAtual.setFont(new Font("Arial", Font.BOLD, 80));
-                    lblCestoAtual.setBorder(BorderFactory.createEmptyBorder(100, 680, 10, 10)); //temporário: alterar modo de centralização
+                    lblCestoAtual.setBorder(BorderFactory.createEmptyBorder(100, 685, 10, 10)); //temporário: alterar modo de centralização
                     
                     cestoPanel.add(cestoLabel, BorderLayout.CENTER);
                     novaJanela.add(cestoPanel, BorderLayout.CENTER);
