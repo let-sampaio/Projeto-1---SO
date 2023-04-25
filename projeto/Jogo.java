@@ -10,6 +10,9 @@ public class Jogo extends JFrame {
     public static Semaphore cestoCheio = new Semaphore(0); // quantidade de bolas no cesto
     public static Semaphore mutex = new Semaphore(1);
 
+    public ImageIcon brincando = new ImageIcon("projeto/src/brincando.png");
+    public ImageIcon quieta = new ImageIcon("projeto/src/quieta.png");
+
 
     private JTextField tfCapacidadeCesto, tfIdentificador, tfTempoBrincadeira, tfTempoQuieta;
     private JLabel lbCapacidadeCesto, lblIdentificador, lblTempoBrincadeira, lblTempoQuieta, lblCestoAtual;
@@ -36,7 +39,7 @@ public class Jogo extends JFrame {
         panel.add(btnIniciar);
 
         add(panel);
-
+        
         btnIniciar.addActionListener(new ActionListener(){
             @Override
             public void actionPerformed(ActionEvent e){
@@ -85,7 +88,7 @@ public class Jogo extends JFrame {
                     cestoLabel.add(lblCestoAtual, BorderLayout.NORTH);
                     lblCestoAtual.setFont(new Font("Arial", Font.BOLD, 80));
                     lblCestoAtual.setBorder(BorderFactory.createEmptyBorder(80, 680, 10, 10)); //temporário: alterar modo de centralização
-                
+                    
                     cestoPanel.add(cestoLabel, BorderLayout.CENTER);
                     novaJanela.add(cestoPanel, BorderLayout.CENTER);
                 } catch (Exception ex) {
@@ -133,6 +136,7 @@ public class Jogo extends JFrame {
             this.bola = bola;
         }
 
+
         public void brincar() throws InterruptedException {
             status = "Brincando com a bola";
             int qtdBrincando = 0;
@@ -176,7 +180,7 @@ public class Jogo extends JFrame {
                         brincar();
                     }
                     else {
-                        System.out.println("Aguardando que outra criança coloque uma bola no cesto");
+                        System.out.println("Criança " + identificador + "está aguardando que outra criança coloque uma bola no cesto");
                         pegar_uma_bola();
                         System.out.println("Criança " + identificador + " pegou uma bola");
                         brincar();
