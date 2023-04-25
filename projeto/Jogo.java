@@ -3,6 +3,7 @@ import java.awt.*;
 import java.awt.event.*;
 import java.util.concurrent.Semaphore;
 
+
 public class Jogo extends JFrame {
 
     public static Semaphore cestoVazio = new Semaphore(0); // capacidade máxima do cesto (K)
@@ -127,34 +128,43 @@ public class Jogo extends JFrame {
 
         public Crianca(String identificador, float tempoBrincadeira, float tempoQuieta, boolean bola){
             this.identificador = identificador;
-            this.tempoBrincadeira = tempoBrincadeira;
-            this.tempoQuieta = tempoQuieta;
+            this.tempoBrincadeira = tempoBrincadeira*1000; //converte para milissegundo
+            this.tempoQuieta = tempoQuieta*1000; //converte para milissegundo
             this.bola = bola;
         }
 
-        public void brincar(){
-            System.out.println("Criança " + identificador + "está brincando com a bola");
+        public void brincar() throws InterruptedException {
+            mutex.acquire(); // down no mutex
+            cestoVazio.acquire(); // down na quantidade de bolas do cesto
             status = "Brincando com a bola";
+            while(System.currentTimeMillis() < tempoBrincadeira ) {
+                System.out.println("Criança " + identificador + " está brincando com a bola");
+            }
+            mutex.release(); // up no mutex
+            cestoCheio.release();
         }
 
-        public void esperar_bola(){
-            System.out.println("Criança " + identificador + "está esperando uma bola no cesto");
-            status = "Esperando bola no cesto";
-        }
-
-        public void pegar_bola(){
-            System.out.println("Criança " + identificador + " pegou uma bola.");
+        public void pegar_uma_bola() throws InterruptedException {
+            cestoCheio.acquire();
+            cestoVazio.release();
+            mutex.release();
             bola = true;
+            System.out.println("Criança " + identificador + " pegou uma bola");
         }
 
-        public void esperar_espaco(){
-            System.out.println("Criança " + identificador + "está esperando espaço no cesto");
-            status = "Esperando espaço no cesto";
+        public void inserir_uma_bola() throws InterruptedException {
+            bola = false;
+            mutex.acquire();
+            cestoCheio.release();
+            cestoVazio.acquire();
+            mutex.release();
         }
 
         public void ficar_quieta(){
-            System.out.println("Criança " + identificador + "está quieta");
             status = "Quieta";
+            while(System.currentTimeMillis() < tempoQuieta ) {
+                System.out.println("Criança " + identificador + " está quieta");
+            }
         }
 
 
@@ -163,17 +173,18 @@ public class Jogo extends JFrame {
             try{
                 while(true){
                     if(bola){
-                        mutex.acquire(); // down no mutex
-                        cestoVazio.acquire(); // down na quantidade de bolas do cesto
                         brincar();
-                        mutex.release(); // up no mutex
-                        cestoCheio.release();
-                        ficar_quieta();
                     }
                     else {
-                        esperar_bola();
-                        
+                        System.out.println("Aguardando que outra criança coloque uma bola no cesto");
+                        pegar_uma_bola();
+                        System.out.println("Criança " + identificador + " pegou uma bola");
+                        brincar();
                     }
+                    System.out.println("Criança " + identificador + " devolveu a bola para o cesto.");
+                    inserir_uma_bola();
+                    System.out.println("Criança " + identificador + " está quieta.");
+                    ficar_quieta();
                 }
             } catch(InterruptedException e) {
                 e.printStackTrace();
