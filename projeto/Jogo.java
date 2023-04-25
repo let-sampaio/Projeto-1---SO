@@ -149,7 +149,6 @@ public class Jogo extends JFrame {
             mutex.acquire();
             bola = true;
             mutex.release();
-            System.out.println("Criança " + identificador + " pegou uma bola");
         }
 
         public void inserir_uma_bola() throws InterruptedException {
