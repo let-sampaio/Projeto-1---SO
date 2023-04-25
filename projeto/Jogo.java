@@ -128,51 +128,52 @@ public class Jogo extends JFrame {
 
         public Crianca(String identificador, float tempoBrincadeira, float tempoQuieta, boolean bola){
             this.identificador = identificador;
-            this.tempoBrincadeira = tempoBrincadeira*1000; //converte para milissegundo
-            this.tempoQuieta = tempoQuieta*1000; //converte para milissegundo
+            this.tempoBrincadeira = tempoBrincadeira;
+            this.tempoQuieta = tempoQuieta;
             this.bola = bola;
         }
 
         public void brincar() throws InterruptedException {
-            mutex.acquire(); // down no mutex
-            cestoVazio.acquire(); // down na quantidade de bolas do cesto
             status = "Brincando com a bola";
-            while(System.currentTimeMillis() < tempoBrincadeira ) {
-                System.out.println("Criança " + identificador + " está brincando com a bola");
+            int qtdBrincando = 0;
+            long startTime = System.currentTimeMillis();
+            while(System.currentTimeMillis() - startTime < (tempoBrincadeira*1000)) {
+                qtdBrincando++; //simula processo cpu-bound
+                
             }
-            mutex.release(); // up no mutex
-            cestoCheio.release();
         }
 
         public void pegar_uma_bola() throws InterruptedException {
             cestoCheio.acquire();
             cestoVazio.release();
-            mutex.release();
+            mutex.acquire();
             bola = true;
+            mutex.release();
             System.out.println("Criança " + identificador + " pegou uma bola");
         }
 
         public void inserir_uma_bola() throws InterruptedException {
             bola = false;
             mutex.acquire();
-            cestoCheio.release();
             cestoVazio.acquire();
+            cestoCheio.release();
             mutex.release();
         }
 
         public void ficar_quieta(){
             status = "Quieta";
-            while(System.currentTimeMillis() < tempoQuieta ) {
-                System.out.println("Criança " + identificador + " está quieta");
+            int qtdQuieta = 0;
+            long startTime = System.currentTimeMillis();
+            while(System.currentTimeMillis() - startTime < (tempoBrincadeira*1000)) {
+                qtdQuieta++; //simula processo cpu-bound
             }
         }
-
-
 
         public void run(){
             try{
                 while(true){
                     if(bola){
+                        System.out.println("Criança " + identificador + " está brincando com a bola");
                         brincar();
                     }
                     else {
