@@ -85,17 +85,17 @@ public class Jogo extends JFrame {
                     lblCestoAtual = new JLabel(String.valueOf(cestoCheio.availablePermits()));
                     lblCestoAtual.setForeground(Color.WHITE);
                 
-                    ImageIcon cestoIcon = new ImageIcon("projeto/src/background.png");
-                    ImageIcon childIcon = new ImageIcon("projeto/src/brincando.png");
-                    JLabel cestoLabel = new JLabel(cestoIcon);
-                    JLabel childLabel = new JLabel(childIcon);
-                    cestoLabel.setLayout(new BorderLayout());
-                    cestoLabel.add(lblCestoAtual, BorderLayout.NORTH);
+                    ImageIcon backgroundIcon = new ImageIcon("projeto/src/background.png");
+                    ImageIcon brincandoIcon = new ImageIcon("projeto/src/brincando.png");
+                    JLabel backgroundLabel = new JLabel(backgroundIcon);
+                    JLabel brincandoLabel = new JLabel(brincandoIcon);
+                    backgroundLabel.setLayout(new BorderLayout());
+                    backgroundLabel.add(lblCestoAtual, BorderLayout.NORTH);
                     lblCestoAtual.setFont(new Font("Arial", Font.BOLD, 80));
                     lblCestoAtual.setBorder(BorderFactory.createEmptyBorder(100, 685, 10, 10)); //temporário: alterar modo de centralização
                     
-                    cestoPanel.add(childLabel, BorderLayout.CENTER);
-                    cestoPanel.add(cestoLabel, BorderLayout.CENTER);
+                    cestoPanel.add(brincandoLabel, BorderLayout.CENTER);
+                    cestoPanel.add(backgroundLabel, BorderLayout.CENTER);
                     novaJanela.add(cestoPanel, BorderLayout.CENTER);
                     cestoPanel.add(Log, BorderLayout.SOUTH); //adiciona a instância existente de JScrollPane ao painel
                     Log.setPreferredSize(new Dimension(200, 100));
