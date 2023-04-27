@@ -10,8 +10,6 @@ public class Jogo extends JFrame {
     public static Semaphore cestoCheio = new Semaphore(0); // quantidade de bolas no cesto
     public static Semaphore mutex = new Semaphore(1);
 
-    public ImageIcon brincando = new ImageIcon("projeto/src/brincando.png");
-    public ImageIcon quieta = new ImageIcon("projeto/src/quieta.png");
 
     public static JTextArea AreaLog = new JTextArea(10, 40);
     public static JScrollPane Log = new JScrollPane(AreaLog);
@@ -86,23 +84,21 @@ public class Jogo extends JFrame {
                     lblCestoAtual.setForeground(Color.WHITE);
                 
                     ImageIcon backgroundIcon = new ImageIcon("projeto/src/background.png");
-                    ImageIcon criancaIcon = new ImageIcon("projeto/src/brincando.png");
                     JLabel backgroundLabel = new JLabel(backgroundIcon);
-                    JLabel lblCrianca = new JLabel(criancaIcon);
                     backgroundLabel.setLayout(new BorderLayout());
                     backgroundLabel.add(lblCestoAtual, BorderLayout.NORTH);
                     lblCestoAtual.setFont(new Font("Arial", Font.BOLD, 80));
-                    lblCestoAtual.setBorder(BorderFactory.createEmptyBorder(100, 685, 10, 10)); //temporário: alterar modo de centralização
+                    lblCestoAtual.setBorder(BorderFactory.createEmptyBorder(100, 685, 10, 10));
                     
-                    cestoPanel.setComponentZOrder(lblCrianca, 0);
-                    cestoPanel.setComponentZOrder(backgroundLabel, 1);
-                    cestoPanel.add(lblCrianca, BorderLayout.CENTER);
                     cestoPanel.add(backgroundLabel, BorderLayout.CENTER);
                     novaJanela.add(cestoPanel, BorderLayout.CENTER);
-                    cestoPanel.add(Log, BorderLayout.SOUTH); //adiciona a instância existente de JScrollPane ao painel
+                    cestoPanel.add(Log, BorderLayout.SOUTH);
                     Log.setPreferredSize(new Dimension(200, 100));
-                    Log.setHorizontalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS); //altera a política da barra de rolagem
-
+                    Log.setHorizontalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
+                    
+                    int componentCount = cestoPanel.getComponentCount();
+                    cestoPanel.setComponentZOrder(lblCrianca, componentCount - 1);
+                    cestoPanel.repaint();
 
                 } catch (Exception ex) {
                     ex.printStackTrace();
@@ -161,6 +157,9 @@ public class Jogo extends JFrame {
         }
 
         public void pegar_uma_bola() throws InterruptedException {
+            if(cestoCheio.availablePermits() == 0){
+                AreaLog.append("Criança " + identificador + " está esperando que outra criança coloque uma bola no cesto.\n");
+            }
             cestoCheio.acquire();
             cestoVazio.release();
             mutex.acquire();
@@ -171,6 +170,9 @@ public class Jogo extends JFrame {
         public void inserir_uma_bola() throws InterruptedException {
             bola = false;
             mutex.acquire();
+            if(cestoVazio.availablePermits() == 0){
+                AreaLog.append("Criança " + identificador + " está aguardando espaço no cesto.\n");
+            }
             cestoVazio.acquire();
             cestoCheio.release();
             mutex.release();
@@ -193,7 +195,6 @@ public class Jogo extends JFrame {
                         System.out.println("Criança " + identificador + " está brincando com a bola");
                         AreaLog.append("Criança " + identificador + " está brincando com a bola\n");
                         brincar();
-                        // lblCrianca.setIcon(brincando);
                     }
                     else {
                         System.out.println("Criança " + identificador + " está aguardando uma bola no cesto");
@@ -210,7 +211,6 @@ public class Jogo extends JFrame {
                     lblCestoAtual.setText(String.valueOf(cestoCheio.availablePermits()));
                     System.out.println("Criança " + identificador + " está quieta.");
                     AreaLog.append("Criança " + identificador + " está quieta.\n");
-                    // lblCrianca.setIcon(quieta);
                     ficar_quieta();
                 }
             } catch(InterruptedException e) {
