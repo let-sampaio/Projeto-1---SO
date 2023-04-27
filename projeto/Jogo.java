@@ -18,7 +18,7 @@ public class Jogo extends JFrame {
     
 
     private JTextField tfCapacidadeCesto, tfIdentificador, tfTempoBrincadeira, tfTempoQuieta;
-    private JLabel lbCapacidadeCesto, lblIdentificador, lblTempoBrincadeira, lblTempoQuieta, lblCestoAtual;
+    private JLabel lbCapacidadeCesto, lblIdentificador, lblTempoBrincadeira, lblTempoQuieta, lblCestoAtual, lblCrianca;
     private JButton btnIniciar, btnCriar;
     private JPanel panel;
 
@@ -86,15 +86,17 @@ public class Jogo extends JFrame {
                     lblCestoAtual.setForeground(Color.WHITE);
                 
                     ImageIcon backgroundIcon = new ImageIcon("projeto/src/background.png");
-                    ImageIcon brincandoIcon = new ImageIcon("projeto/src/brincando.png");
+                    ImageIcon criancaIcon = new ImageIcon("projeto/src/brincando.png");
                     JLabel backgroundLabel = new JLabel(backgroundIcon);
-                    JLabel brincandoLabel = new JLabel(brincandoIcon);
+                    JLabel lblCrianca = new JLabel(criancaIcon);
                     backgroundLabel.setLayout(new BorderLayout());
                     backgroundLabel.add(lblCestoAtual, BorderLayout.NORTH);
                     lblCestoAtual.setFont(new Font("Arial", Font.BOLD, 80));
                     lblCestoAtual.setBorder(BorderFactory.createEmptyBorder(100, 685, 10, 10)); //temporário: alterar modo de centralização
                     
-                    cestoPanel.add(brincandoLabel, BorderLayout.CENTER);
+                    cestoPanel.setComponentZOrder(lblCrianca, 0);
+                    cestoPanel.setComponentZOrder(backgroundLabel, 1);
+                    cestoPanel.add(lblCrianca, BorderLayout.CENTER);
                     cestoPanel.add(backgroundLabel, BorderLayout.CENTER);
                     novaJanela.add(cestoPanel, BorderLayout.CENTER);
                     cestoPanel.add(Log, BorderLayout.SOUTH); //adiciona a instância existente de JScrollPane ao painel
@@ -191,6 +193,7 @@ public class Jogo extends JFrame {
                         System.out.println("Criança " + identificador + " está brincando com a bola");
                         AreaLog.append("Criança " + identificador + " está brincando com a bola\n");
                         brincar();
+                        // lblCrianca.setIcon(brincando);
                     }
                     else {
                         System.out.println("Criança " + identificador + " está aguardando uma bola no cesto");
@@ -207,6 +210,7 @@ public class Jogo extends JFrame {
                     lblCestoAtual.setText(String.valueOf(cestoCheio.availablePermits()));
                     System.out.println("Criança " + identificador + " está quieta.");
                     AreaLog.append("Criança " + identificador + " está quieta.\n");
+                    // lblCrianca.setIcon(quieta);
                     ficar_quieta();
                 }
             } catch(InterruptedException e) {
