@@ -82,16 +82,19 @@ public class Jogo extends JFrame {
                     int cestoAtual = Integer.parseInt(tfCapacidadeCesto.getText());
                     cestoVazio.release(cestoAtual); //atribui a capacidade do cesto ao semáforo
 
-                    lblCestoAtual = new JLabel(String.valueOf(cestoAtual));
+                    lblCestoAtual = new JLabel(String.valueOf(cestoCheio.availablePermits()));
                     lblCestoAtual.setForeground(Color.WHITE);
                 
-                    ImageIcon cestoIcon = new ImageIcon("projeto/src/cesto2.png");
+                    ImageIcon cestoIcon = new ImageIcon("projeto/src/background.png");
+                    ImageIcon childIcon = new ImageIcon("projeto/src/brincando.png");
                     JLabel cestoLabel = new JLabel(cestoIcon);
+                    JLabel childLabel = new JLabel(childIcon);
                     cestoLabel.setLayout(new BorderLayout());
                     cestoLabel.add(lblCestoAtual, BorderLayout.NORTH);
                     lblCestoAtual.setFont(new Font("Arial", Font.BOLD, 80));
                     lblCestoAtual.setBorder(BorderFactory.createEmptyBorder(100, 685, 10, 10)); //temporário: alterar modo de centralização
                     
+                    cestoPanel.add(childLabel, BorderLayout.CENTER);
                     cestoPanel.add(cestoLabel, BorderLayout.CENTER);
                     novaJanela.add(cestoPanel, BorderLayout.CENTER);
                     cestoPanel.add(Log, BorderLayout.SOUTH); //adiciona a instância existente de JScrollPane ao painel
@@ -183,7 +186,8 @@ public class Jogo extends JFrame {
         public void run(){
             try{
                 while(true){
-                    if(bola){
+                    if(bola){            
+                        lblCestoAtual.setText(String.valueOf(cestoCheio.availablePermits()));
                         System.out.println("Criança " + identificador + " está brincando com a bola");
                         AreaLog.append("Criança " + identificador + " está brincando com a bola\n");
                         brincar();
@@ -192,6 +196,7 @@ public class Jogo extends JFrame {
                         System.out.println("Criança " + identificador + " está aguardando uma bola no cesto");
                         AreaLog.append("Criança " + identificador + " está aguardando uma bola no cesto\n");
                         pegar_uma_bola();
+                        lblCestoAtual.setText(String.valueOf(cestoCheio.availablePermits()));
                         System.out.println("Criança " + identificador + " está brincando com a bola que pegou");
                         AreaLog.append("Criança " + identificador + " está brincando com a bola que pegou\n");
                         brincar();
@@ -199,6 +204,7 @@ public class Jogo extends JFrame {
                     System.out.println("Criança " + identificador + " devolveu a bola para o cesto.");
                     AreaLog.append("Criança " + identificador + " devolveu a bola para o cesto.\n");
                     inserir_uma_bola();
+                    lblCestoAtual.setText(String.valueOf(cestoCheio.availablePermits()));
                     System.out.println("Criança " + identificador + " está quieta.");
                     AreaLog.append("Criança " + identificador + " está quieta.\n");
                     ficar_quieta();
