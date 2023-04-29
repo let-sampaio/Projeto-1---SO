@@ -13,23 +13,33 @@ brincando e descansando (quieta) eternamente. Utilizando semáforos, modele esse
 problema resolvendo os conflitos entre os N threads "criança".
 
 Entradas:
+
 • Capacidade do cesto de bolas (K).
+
 • Criação do thread criança:
-o A aplicação deve possuir um botão para que o usuário possa criar uma criança a
+
+A aplicação deve possuir um botão para que o usuário possa criar uma criança a
 qualquer momento. Durante a criação de cada thread criança, os seguintes
 parâmetros devem ser definidos:
+
 • Id = identificador da criança (número ou nome).
+
 • Bola? = define se a criança será instanciada com bola ou sem bola.
+
 • Tb = tempo de brincadeira (tempo que a criança fica brincando com a bola –
 a criança não deve dormir durante este tempo).
+
 • Tq = tempo quieta (tempo que criança fica quieta após colocar a bola no
 cesto – a criança não deve dormir durante este tempo).
 
 Saídas:
 A interface deverá atender aos seguintes requisitos:
+
 • Mostrar os dados de cada criança: identificador, tempo de brincadeira e tempo que fica
 quieta.
+
 • Mostrar, a cada instante, o status de cada thread criança (brincado com a bola,
 aguardando que outra criança coloque uma bola no cesto, aguardando que o cesto tenha
 espaço para que ela coloque sua bola ou quieta).
+
 • Mostrar um log com os principais eventos de cada criança.
