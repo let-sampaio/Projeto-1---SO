@@ -16,7 +16,7 @@ public class Jogo extends JFrame {
     
 
     private JTextField tfCapacidadeCesto, tfIdentificador, tfTempoBrincadeira, tfTempoQuieta;
-    private JLabel lbCapacidadeCesto, lblIdentificador, lblTempoBrincadeira, lblTempoQuieta, lblCestoAtual, lblCrianca;
+    private JLabel lbCapacidadeCesto, lblIdentificador, lblTempoBrincadeira, lblTempoQuieta, lblCestoAtual;
     private JButton btnIniciar, btnCriar;
     private JPanel panel;
 
@@ -95,10 +95,7 @@ public class Jogo extends JFrame {
                     cestoPanel.add(Log, BorderLayout.SOUTH);
                     Log.setPreferredSize(new Dimension(200, 100));
                     Log.setHorizontalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
-                    
-                    int componentCount = cestoPanel.getComponentCount();
-                    cestoPanel.setComponentZOrder(lblCrianca, componentCount - 1);
-                    cestoPanel.repaint();
+                
 
                 } catch (Exception ex) {
                     ex.printStackTrace();
